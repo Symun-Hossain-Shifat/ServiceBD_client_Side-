@@ -48,7 +48,7 @@ export default function Navbar() {
                 {/* Desktop actions */}
                 <div className="hidden items-center gap-3 md:flex">
                     <Link
-                        href="/login"
+                        href="/Signin"
                         className="rounded-lg px-3 py-2 text-sm font-medium text-[#14201B] transition-colors hover:text-[#0F5A3C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F5A3C]"
                     >
                         Log in
@@ -111,7 +111,7 @@ export default function Navbar() {
 
                     <div className="mt-4 grid grid-cols-2 gap-3 border-t border-[#14201B]/10 pt-4">
                         <Link
-                            href="/login"
+                            href="/Signin"
                             className="rounded-xl border border-[#14201B]/20 px-4 py-3 text-center text-sm font-semibold text-[#14201B]"
                         >
                             Log in
