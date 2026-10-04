@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import { FcGoogle } from "react-icons/fc";
 const services = ["Electrician", "AC repair", "Home cleaning", "Plumber", "Painter", "Appliance repair"];
 
 const field =
@@ -96,8 +96,9 @@ export default function LoginPage() {
 
                     <button
                         type="button"
-                        className="w-full rounded-lg border border-neutral-300 py-3 text-[15px] font-medium text-neutral-800 transition hover:bg-neutral-50"
+                        className="flex w-full items-center justify-center gap-3 rounded-lg border border-neutral-300 py-3 text-[15px] font-medium text-neutral-800 transition hover:bg-neutral-50"
                     >
+                        <FcGoogle className="text-xl" />
                         Continue with Google
                     </button>
 
