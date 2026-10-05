@@ -5,7 +5,7 @@ const links = [
     { label: "Services", href: "/services" },
     { label: "How it works", href: "/how-it-works" },
     { label: "Providers", href: "/providers" },
-    { label: "Contact", href: "/contact" },
+    { label: "Contact", href: "/Contact" },
 ];
 
 export default function Navbar() {
