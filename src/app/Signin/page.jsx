@@ -104,7 +104,7 @@ export default function LoginPage() {
 
                     <p className="mt-8 text-center text-sm text-neutral-600">
                         New to ServiceBD?{" "}
-                        <Link href="/register" className="font-semibold text-[#0F4D3A] hover:underline">
+                        <Link href="/Signup" className="font-semibold text-[#0F4D3A] hover:underline">
                             Create an account
                         </Link>
                     </p>
