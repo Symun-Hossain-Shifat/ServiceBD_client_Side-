@@ -27,7 +27,7 @@ const columns = [
             { label: "Help center", href: "/help" },
             { label: "Contact us", href: "/Contact" },
             { label: "Terms of service", href: "/terms" },
-            { label: "Privacy policy", href: "/privacy" },
+            { label: "Privacy policy", href: "/Privacy" },
         ],
     },
 ];
