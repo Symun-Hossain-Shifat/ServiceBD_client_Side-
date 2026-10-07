@@ -26,7 +26,7 @@ const columns = [
         links: [
             { label: "Help center", href: "/help" },
             { label: "Contact us", href: "/Contact" },
-            { label: "Terms of service", href: "/terms" },
+            { label: "Terms of service", href: "/Terms" },
             { label: "Privacy policy", href: "/Privacy" },
         ],
     },
