@@ -18,7 +18,7 @@ const columns = [
             { label: "About us", href: "/AboutUs" },
             { label: "Become a provider", href: "/become-a-provider" },
             { label: "Careers", href: "/careers" },
-            { label: "Blog", href: "/blog" },
+            { label: "Blog", href: "/Blog" },
         ],
     },
     {
