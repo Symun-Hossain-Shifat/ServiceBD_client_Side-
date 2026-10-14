@@ -44,7 +44,7 @@ const FAQS = [
 
 function FaqItem({ item, open, onToggle, id }) {
     return (
-        <div className="border-b border-slate-200 dark:border-slate-800">
+        <div className="border-b border-emerald-700">
             <h3>
                 <button
                     type="button"
@@ -52,13 +52,13 @@ function FaqItem({ item, open, onToggle, id }) {
                     aria-expanded={open}
                     aria-controls={`faq-panel-${id}`}
                     id={`faq-button-${id}`}
-                    className="flex w-full items-center justify-between gap-6 py-5 text-left text-base font-medium text-slate-900 transition-colors hover:text-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 focus-visible:ring-offset-2 dark:text-slate-100 dark:hover:text-emerald-400 sm:text-lg"
+                    className="flex w-full items-center justify-between gap-6 py-5 text-left text-base font-medium text-white transition-colors hover:text-emerald-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900 sm:text-lg"
                 >
                     <span>{item.q}</span>
                     <svg
                         aria-hidden="true"
                         viewBox="0 0 24 24"
-                        className={`h-5 w-5 shrink-0 text-slate-500 transition-transform duration-200 motion-reduce:transition-none ${open ? "rotate-45" : ""
+                        className={`h-5 w-5 shrink-0 text-emerald-200 transition-transform duration-200 motion-reduce:transition-none ${open ? "rotate-45" : ""
                             }`}
                         fill="none"
                         stroke="currentColor"
@@ -77,7 +77,7 @@ function FaqItem({ item, open, onToggle, id }) {
                     }`}
             >
                 <div className="overflow-hidden">
-                    <p className="max-w-2xl pb-5 leading-relaxed text-slate-600 dark:text-slate-400">
+                    <p className="max-w-2xl pb-5 leading-relaxed text-emerald-100">
                         {item.a}
                     </p>
                 </div>
@@ -86,3 +86,47 @@ function FaqItem({ item, open, onToggle, id }) {
     );
 }
 
+export default function FaqSection() {
+    const [openIndex, setOpenIndex] = useState(0);
+
+    return (
+        <section
+            id="faq"
+            aria-labelledby="faq-heading"
+            className="w-full bg-emerald-900"
+        >
+            <div className="mx-auto grid w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24 gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
+                <div>
+                    <h2
+                        id="faq-heading"
+                        className="text-3xl font-semibold tracking-tight text-white sm:text-4xl"
+                    >
+                        Questions people ask before booking
+                    </h2>
+                    <p className="mt-4 max-w-md text-emerald-100">
+                        Quick answers about booking, payments, and providers. Need
+                        something else? Our team is happy to help.
+                    </p>
+                    <Link
+                        href="/help-center"
+                        className="mt-6 inline-flex items-center rounded-lg bg-white px-5 py-2.5 text-sm font-medium text-emerald-900 transition-colors hover:bg-emerald-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2 focus-visible:ring-offset-emerald-900"
+                    >
+                        Visit Help Center
+                    </Link>
+                </div>
+
+                <div className="border-t border-emerald-700">
+                    {FAQS.map((item, i) => (
+                        <FaqItem
+                            key={item.q}
+                            id={i}
+                            item={item}
+                            open={openIndex === i}
+                            onToggle={() => setOpenIndex(openIndex === i ? -1 : i)}
+                        />
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}

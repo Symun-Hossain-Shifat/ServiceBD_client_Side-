@@ -1,5 +1,6 @@
 import HomeBanner from "@/Components/Banner";
 import WhyChooseUs from "@/Components/Choose";
+import FaqSection from "@/Components/FAQ";
 import CustomerReviews from "@/Components/Review";
 
 
@@ -9,6 +10,7 @@ export default function Home() {
       <HomeBanner />
       <WhyChooseUs></WhyChooseUs>
       <CustomerReviews></CustomerReviews>
+      <FaqSection />
     </>
   );
 }
