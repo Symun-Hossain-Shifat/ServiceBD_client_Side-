@@ -13,11 +13,11 @@ const columns = [
         ],
     },
     {
-        title: "Company",
+        title: "Useful Links",
         links: [
             { label: "About us", href: "/AboutUs" },
             { label: "Become a provider", href: "/become-a-provider" },
-            { label: "Careers", href: "/careers" },
+            { label: "Careers", href: "/Careers" },
             { label: "Blog", href: "/Blog" },
         ],
     },
