@@ -1,7 +1,11 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 const links = [
-    { label: "Home", href: "/", active: true },
+    { label: "Home", href: "/" },
     { label: "Services", href: "/Services" },
     { label: "How it works", href: "/WorkFlow" },
     { label: "Providers", href: "/Providers" },
@@ -9,10 +13,25 @@ const links = [
 ];
 
 export default function Navbar() {
+    const pathname = usePathname();
+    const toggleRef = useRef(null);
+    // Case-insensitive match, so /Services and /services both work.
+    // Home matches exactly; other links also match nested routes (e.g. /Services/plumbing).
+    const isActive = (href) => {
+        const current = pathname.toLowerCase();
+        const target = href.toLowerCase();
+        if (target === "/") return current === "/";
+        return current === target || current.startsWith(`${target}/`);
+    };
+
+    // Close the mobile menu after navigating to another page
+    useEffect(() => {
+        if (toggleRef.current) toggleRef.current.checked = false;
+    }, [pathname]);
+
     return (
         <section className="sticky top-0 z-50 border-b border-[#14201B]/10 bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-            {/* CSS-only toggle: no JavaScript or state needed */}
-            <input id="nav-toggle" type="checkbox" className="peer sr-only" />
+            <input ref={toggleRef} id="nav-toggle" type="checkbox" className="peer sr-only" />
 
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8 peer-checked:[&_.icon-open]:hidden peer-checked:[&_.icon-close]:block">
                 {/* Logo */}
@@ -28,20 +47,24 @@ export default function Navbar() {
                 {/* Desktop links */}
                 <nav className="hidden md:block" aria-label="Main">
                     <ul className="flex items-center gap-1 lg:gap-2">
-                        {links.map((link) => (
-                            <li key={link.href}>
-                                <Link
-                                    href={link.href}
-                                    className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-[#0F5A3C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F5A3C] ${link.active ? "text-[#0F5A3C]" : "text-[#14201B]/70"
-                                        }`}
-                                >
-                                    {link.label}
-                                    {link.active && (
-                                        <span className="absolute inset-x-3 -bottom-[13px] h-0.5 rounded-full bg-[#F5A524]" />
-                                    )}
-                                </Link>
-                            </li>
-                        ))}
+                        {links.map((link) => {
+                            const active = isActive(link.href);
+                            return (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        aria-current={active ? "page" : undefined}
+                                        className={`relative rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:text-[#0F5A3C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F5A3C] ${active ? "text-[#0F5A3C]" : "text-[#14201B]/70"
+                                            }`}
+                                    >
+                                        {link.label}
+                                        {active && (
+                                            <span className="absolute inset-x-3 -bottom-[13px] h-0.5 rounded-full bg-[#F5A524]" />
+                                        )}
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ul>
                 </nav>
 
@@ -54,7 +77,7 @@ export default function Navbar() {
                         Log in
                     </Link>
                     <Link
-                        href="/services"
+                        href="/Services"
                         className="rounded-xl bg-[#F5A524] px-4 py-2.5 text-sm font-semibold text-[#14201B] shadow-sm transition hover:bg-[#e69712] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F5A3C]"
                     >
                         Book a service
@@ -67,24 +90,10 @@ export default function Navbar() {
                     aria-label="Toggle menu"
                     className="grid h-10 w-10 cursor-pointer place-items-center rounded-lg text-[#14201B] transition-colors hover:bg-[#0F5A3C]/10 md:hidden"
                 >
-                    <svg
-                        className="icon-open h-6 w-6"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                    >
+                    <svg className="icon-open h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                         <path d="M4 7h16M4 12h16M4 17h16" />
                     </svg>
-                    <svg
-                        className="icon-close hidden h-6 w-6"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                    >
+                    <svg className="icon-close hidden h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
                         <path d="M6 6l12 12M18 6L6 18" />
                     </svg>
                 </label>
@@ -94,19 +103,23 @@ export default function Navbar() {
             <div className="hidden border-t border-[#14201B]/10 bg-white peer-checked:block md:hidden">
                 <nav className="mx-auto max-w-7xl px-4 py-4 sm:px-6" aria-label="Mobile">
                     <ul className="flex flex-col gap-1">
-                        {links.map((link) => (
-                            <li key={link.href}>
-                                <Link
-                                    href={link.href}
-                                    className={`block rounded-lg px-3 py-3 text-base font-medium transition-colors ${link.active
-                                        ? "bg-[#0F5A3C]/10 text-[#0F5A3C]"
-                                        : "text-[#14201B]/80 hover:bg-[#14201B]/5"
-                                        }`}
-                                >
-                                    {link.label}
-                                </Link>
-                            </li>
-                        ))}
+                        {links.map((link) => {
+                            const active = isActive(link.href);
+                            return (
+                                <li key={link.href}>
+                                    <Link
+                                        href={link.href}
+                                        aria-current={active ? "page" : undefined}
+                                        className={`block rounded-lg px-3 py-3 text-base font-medium transition-colors ${active
+                                            ? "bg-[#0F5A3C]/10 text-[#0F5A3C]"
+                                            : "text-[#14201B]/80 hover:bg-[#14201B]/5"
+                                            }`}
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            );
+                        })}
                     </ul>
 
                     <div className="mt-4 grid grid-cols-2 gap-3 border-t border-[#14201B]/10 pt-4">
@@ -117,7 +130,7 @@ export default function Navbar() {
                             Log in
                         </Link>
                         <Link
-                            href="/services"
+                            href="/Services"
                             className="rounded-xl bg-[#F5A524] px-4 py-3 text-center text-sm font-semibold text-[#14201B]"
                         >
                             Book a service
