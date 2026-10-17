@@ -1,3 +1,5 @@
+
+'use client'
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 const services = ["Electrician", "AC repair", "Home cleaning", "Plumber", "Painter", "Appliance repair"];
@@ -6,6 +8,19 @@ const field =
     "w-full rounded-lg border border-neutral-300 bg-white px-4 py-3 text-[15px] text-neutral-900 outline-none transition focus:border-[#0F4D3A] focus:ring-2 focus:ring-[#0F4D3A]/25";
 
 export default function LoginPage() {
+
+    const handlesignin = (e) => {
+        e.preventDefault();
+
+        const formdata = e.target;
+
+
+        const email = formdata.Email.value;
+        const password = formdata.Password.value;
+
+        console.log(email, password);
+    };
+
     return (
         <main className="grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
             {/* Brand panel */}
@@ -49,13 +64,14 @@ export default function LoginPage() {
                     <h2 className="text-3xl font-bold tracking-tight text-neutral-900">Log in</h2>
                     <p className="mt-2 text-neutral-600">Manage your bookings and saved providers.</p>
 
-                    <form className="mt-8 space-y-5">
+                    <form className="mt-8 space-y-5" onSubmit={handlesignin}>
                         <div>
                             <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-neutral-800">
                                 Email
                             </label>
                             <input
                                 id="email"
+                                name="Email"
                                 type="email"
                                 autoComplete="email"
                                 className={field}
@@ -74,6 +90,7 @@ export default function LoginPage() {
                             </div>
                             <input
                                 id="password"
+                                name="Password"
                                 type="password"
                                 autoComplete="current-password"
                                 className={field}
@@ -82,6 +99,7 @@ export default function LoginPage() {
 
                         <button
                             type="submit"
+
                             className="w-full rounded-lg bg-[#0F4D3A] py-3 text-[15px] font-semibold text-white transition hover:bg-[#0B3B2D] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F2A900] focus-visible:ring-offset-2"
                         >
                             Log in
