@@ -1,4 +1,5 @@
 'use client'
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 const services = ["Electrician", "AC repair", "Home cleaning", "Plumber", "Painter", "Appliance repair"];
 
@@ -11,14 +12,27 @@ const roleCard =
     "block cursor-pointer rounded-lg border border-stone-300 bg-white px-3.5 py-3 text-center text-[15px] font-medium text-stone-800 transition hover:border-stone-400 peer-checked:border-emerald-800 peer-checked:bg-emerald-800 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-700/40";
 
 export default function SignupPage() {
-    const handleSignup = (e) => {
-        e.preventdefault()
+    const handleSignup = async (e) => {
+        e.preventDefault()
         const formdata = e.target
         const email = formdata.email.value
         const password = formdata.password.value
         const name = formdata.name.value
         const role = formdata.role.value
         console.log(email, password, name, role)
+        const { data, error } = await authClient.signUp.email({
+            name: name,
+            email: email,
+            password: password,
+
+            callbackURL: "/",
+        });
+        if (data) {
+            alert('SignUp Successfull')
+        }
+        if (error) {
+            alert('SignUp Failed')
+        }
     }
     return (
         <main className="grid min-h-screen bg-stone-50 lg:grid-cols-[1fr_1.05fr]">

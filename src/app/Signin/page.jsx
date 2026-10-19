@@ -1,5 +1,6 @@
 
 'use client'
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
 const services = ["Electrician", "AC repair", "Home cleaning", "Plumber", "Painter", "Appliance repair"];
@@ -9,7 +10,7 @@ const field =
 
 export default function LoginPage() {
 
-    const handlesignin = (e) => {
+    const handlesignin = async (e) => {
         e.preventDefault();
 
         const formdata = e.target;
@@ -17,8 +18,18 @@ export default function LoginPage() {
 
         const email = formdata.Email.value;
         const password = formdata.Password.value;
+        const { data, error } = await authClient.signIn.email({
+            email: email,
+            password: password,
+            rememberMe: true,
+            callbackURL: "/",
+        });
+        if (data) {
+            alert('Login Successfull')
+        } else if (error) {
+            alert('Login Failed')
+        }
 
-        console.log(email, password);
     };
 
     return (
