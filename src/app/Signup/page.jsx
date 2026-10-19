@@ -1,6 +1,7 @@
 'use client'
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 const services = ["Electrician", "AC repair", "Home cleaning", "Plumber", "Painter", "Appliance repair"];
 
 const field =
@@ -12,6 +13,7 @@ const roleCard =
     "block cursor-pointer rounded-lg border border-stone-300 bg-white px-3.5 py-3 text-center text-[15px] font-medium text-stone-800 transition hover:border-stone-400 peer-checked:border-emerald-800 peer-checked:bg-emerald-800 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-700/40";
 
 export default function SignupPage() {
+    const router = useRouter()
     const handleSignup = async (e) => {
         e.preventDefault()
         const formdata = e.target
@@ -29,10 +31,13 @@ export default function SignupPage() {
         });
         if (data) {
             alert('SignUp Successfull')
+            router.push("/");
+
         }
         if (error) {
-            alert('SignUp Failed')
+            alert(error.message)
         }
+        console.log(data, error)
     }
     return (
         <main className="grid min-h-screen bg-stone-50 lg:grid-cols-[1fr_1.05fr]">
@@ -76,7 +81,7 @@ export default function SignupPage() {
                         </h2>
                         <p className="mt-1.5 text-stone-600">
                             Already registered?{" "}
-                            <Link href="/login" className="font-semibold text-emerald-800 underline">
+                            <Link href="/Signin" className="font-semibold text-emerald-800 underline">
                                 Log in
                             </Link>
                         </p>
