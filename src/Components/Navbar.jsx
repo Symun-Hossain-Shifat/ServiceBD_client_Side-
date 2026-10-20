@@ -1,5 +1,6 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -15,8 +16,9 @@ const links = [
 export default function Navbar() {
     const pathname = usePathname();
     const toggleRef = useRef(null);
-    // Case-insensitive match, so /Services and /services both work.
-    // Home matches exactly; other links also match nested routes (e.g. /Services/plumbing).
+    const { data: session } = authClient.useSession()
+    const user = session?.user;
+    console.log(user)
     const isActive = (href) => {
         const current = pathname.toLowerCase();
         const target = href.toLowerCase();
@@ -24,7 +26,13 @@ export default function Navbar() {
         return current === target || current.startsWith(`${target}/`);
     };
 
-    // Close the mobile menu after navigating to another page
+
+
+    const handleLogout = async () => {
+        await authClient.signOut();
+    }
+
+
     useEffect(() => {
         if (toggleRef.current) toggleRef.current.checked = false;
     }, [pathname]);
@@ -70,12 +78,26 @@ export default function Navbar() {
 
                 {/* Desktop actions */}
                 <div className="hidden items-center gap-3 md:flex">
-                    <Link
-                        href="/Signin"
-                        className="rounded-lg px-3 py-2 text-sm font-medium text-[#14201B] transition-colors hover:text-[#0F5A3C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F5A3C]"
-                    >
-                        Log in
-                    </Link>
+                    {
+                        user ? (
+                            <button
+                                type="button"
+                                onClick={handleLogout}
+                                className="rounded-xl bg-[#F5A524] px-4 py-2.5 text-sm font-semibold text-[#14201B] shadow-sm transition hover:bg-[#e69712] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F5A3C]"
+                            >
+                                Log out
+                            </button>
+                        ) : (
+                            <Link href="/Signin" className="block">
+                                <button
+                                    type="button"
+                                    className="rounded-xl bg-[#F5A524] px-4 py-2.5 text-sm font-semibold text-[#14201B] shadow-sm transition hover:bg-[#e69712] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F5A3C]"
+                                >
+                                    Log in
+                                </button>
+                            </Link>
+                        )
+                    }
                     <Link
                         href="/Services"
                         className="rounded-xl bg-[#F5A524] px-4 py-2.5 text-sm font-semibold text-[#14201B] shadow-sm transition hover:bg-[#e69712] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0F5A3C]"
@@ -123,12 +145,26 @@ export default function Navbar() {
                     </ul>
 
                     <div className="mt-4 grid grid-cols-2 gap-3 border-t border-[#14201B]/10 pt-4">
-                        <Link
-                            href="/Signin"
-                            className="rounded-xl border border-[#14201B]/20 px-4 py-3 text-center text-sm font-semibold text-[#14201B]"
-                        >
-                            Log in
-                        </Link>
+                        {
+                            user ? (
+                                <button
+                                    type="button"
+                                    onClick={handleLogout}
+                                    className="rounded-xl border border-[#14201B]/20 px-4 py-3 text-center text-sm font-semibold text-[#14201B] transition hover:bg-[#14201B]/5"
+                                >
+                                    Log out
+                                </button>
+                            ) : (
+                                <Link href="/Signin" className="block">
+                                    <button
+                                        type="button"
+                                        className="w-full rounded-xl border border-[#14201B]/20 px-4 py-3 text-center text-sm font-semibold text-[#14201B] transition hover:bg-[#14201B]/5"
+                                    >
+                                        Log in
+                                    </button>
+                                </Link>
+                            )
+                        }
                         <Link
                             href="/Services"
                             className="rounded-xl bg-[#F5A524] px-4 py-3 text-center text-sm font-semibold text-[#14201B]"
