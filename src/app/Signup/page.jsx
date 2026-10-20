@@ -19,18 +19,21 @@ export default function SignupPage() {
         const formdata = e.target
         const email = formdata.email.value
         const password = formdata.password.value
+        const mobile = formdata.phone.value
         const name = formdata.name.value
         const role = formdata.role.value
         console.log(email, password, name, role)
         const { data, error } = await authClient.signUp.email({
             name: name,
             email: email,
+            role: role,
+            mobile: mobile,
             password: password,
 
             callbackURL: "/",
         });
         if (data) {
-            alert('SignUp Successfull')
+            alert('Signup Successfull')
             router.push("/");
 
         }
