@@ -32,6 +32,21 @@ export default function LoginPage() {
 
     };
 
+
+
+    const handlegoogleSignin = async () => {
+        const data = await authClient.signIn.social({
+            provider: "google",
+        });
+        if (data) {
+            alert('Login Successfull')
+        } else if (error) {
+            alert('Login Failed')
+        }
+    };
+
+
+
     return (
         <main className="grid min-h-screen lg:grid-cols-[1.05fr_1fr]">
             {/* Brand panel */}
@@ -125,6 +140,7 @@ export default function LoginPage() {
 
                     <button
                         type="button"
+                        onClick={handlegoogleSignin}
                         className="flex w-full items-center justify-center gap-3 rounded-lg border border-neutral-300 py-3 text-[15px] font-medium text-neutral-800 transition hover:bg-neutral-50"
                     >
                         <FcGoogle className="text-xl" />
