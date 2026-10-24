@@ -5,28 +5,31 @@ import { client } from "@/db";
 
 export const auth = betterAuth({
     database: mongodbAdapter(client.db("ServiceBD")),
+
     emailAndPassword: {
         enabled: true,
     },
+
     socialProviders: {
         google: {
             clientId: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         },
     },
+
     user: {
         additionalFields: {
             role: {
                 type: "string",
-                default: "customer",
-                required: true,
+                required: false,
+                defaultValue: "customer",
+                input: false,
             },
-            mobile: {
-                type: 'Number',
-                default: '',
-                required: true
-            }
 
-        }
-    }
+            mobile: {
+                type: "string",
+                required: false,
+            },
+        },
+    },
 });
