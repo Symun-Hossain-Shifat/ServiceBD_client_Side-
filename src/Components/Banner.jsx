@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+const CITIES = ["Dhaka", "Chattogram", "Sylhet"];
+
 const QUICK_SERVICES = [
     { label: "AC Repair", icon: "❄️" },
     { label: "Electrician", icon: "⚡" },
@@ -19,37 +21,67 @@ const TRUST = [
     { value: "4.8/5", label: "Average rating" },
 ];
 
+const BOOKING_STEPS = [
+    { title: "Pick a service", note: "AC Repair, Gas refill" },
+    { title: "Choose a time", note: "Tomorrow, 10:00 AM" },
+    { title: "See the price", note: "Fixed, no surprise charges" },
+];
+
 export default function HomeBanner() {
     const router = useRouter();
     const [query, setQuery] = useState("");
+    const [city, setCity] = useState(CITIES[0]);
 
     const handleSearch = (e) => {
         e.preventDefault();
+        const params = new URLSearchParams();
         const q = query.trim();
-        router.push(q ? `/services?search=${encodeURIComponent(q)}` : "/services");
+        if (q) params.set("search", q);
+        if (city) params.set("city", city);
+        const qs = params.toString();
+        router.push(qs ? `/services?${qs}` : "/services");
     };
 
     return (
-        <section className="relative overflow-hidden bg-emerald-900 text-white">
-            {/* Soft background shapes */}
-            <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-emerald-800" />
-            <div aria-hidden="true" className="pointer-events-none absolute -bottom-32 left-1/3 h-80 w-80 rounded-full bg-amber-300/10" />
+        <section className="relative overflow-hidden bg-stone-50 text-slate-900">
+            {/* Dotted grid backdrop */}
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 opacity-60 [background-image:radial-gradient(#d6d3d1_1px,transparent_1px)] [background-size:22px_22px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]"
+            />
 
-            <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 sm:py-24 lg:grid-cols-2">
+            <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 pb-16 pt-14 sm:pt-20 lg:grid-cols-[1.1fr_0.9fr] lg:pb-24">
                 {/* Left: message + search */}
                 <div>
-                    <p className="inline-block rounded-full bg-emerald-800 px-3 py-1 text-sm text-emerald-100">
-                        Now serving Dhaka, Chattogram and Sylhet
-                    </p>
-
-                    <h1 className="mt-5 text-4xl font-bold leading-tight sm:text-5xl">
-                        Book trusted home services in minutes
+                    <h1 className="max-w-xl text-4xl font-extrabold leading-[1.1] tracking-tight text-emerald-950 sm:text-5xl lg:text-6xl">
+                        Someone reliable for every job at home.
                     </h1>
-                    <p className="mt-4 max-w-lg text-lg text-emerald-100">
-                        Electricians, cleaners, tutors and more. Compare verified providers and see the price before you book.
+                    <p className="mt-5 max-w-lg text-lg leading-relaxed text-slate-600">
+                        Compare verified electricians, cleaners, tutors and more. You see the price before you book.
                     </p>
 
-                    <form onSubmit={handleSearch} className="mt-8 flex max-w-xl flex-col gap-3 sm:flex-row" role="search">
+                    {/* Search panel */}
+                    <form
+                        onSubmit={handleSearch}
+                        role="search"
+                        className="mt-8 flex max-w-2xl flex-col gap-2 rounded-2xl border border-stone-200 bg-white p-2 shadow-xl shadow-emerald-900/5 sm:flex-row sm:items-center sm:rounded-full"
+                    >
+                        <label htmlFor="banner-city" className="sr-only">
+                            City
+                        </label>
+                        <select
+                            id="banner-city"
+                            value={city}
+                            onChange={(e) => setCity(e.target.value)}
+                            className="rounded-full bg-stone-100 px-4 py-3 text-sm font-medium text-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-600 sm:w-40"
+                        >
+                            {CITIES.map((c) => (
+                                <option key={c} value={c}>
+                                    {c}
+                                </option>
+                            ))}
+                        </select>
+
                         <label htmlFor="banner-search" className="sr-only">
                             What service do you need?
                         </label>
@@ -58,53 +90,89 @@ export default function HomeBanner() {
                             type="search"
                             value={query}
                             onChange={(e) => setQuery(e.target.value)}
-                            placeholder="What do you need help with?"
-                            className="w-full rounded-lg bg-white px-4 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-4 focus:ring-amber-300"
+                            placeholder="Search a service, e.g. AC repair"
+                            className="min-w-0 flex-1 bg-transparent px-3 py-3 text-slate-900 placeholder:text-slate-400 focus:outline-none"
                         />
+
                         <button
                             type="submit"
-                            className="rounded-lg bg-amber-300 px-6 py-3 font-semibold text-emerald-950 transition hover:bg-amber-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-white"
+                            className="rounded-full bg-emerald-700 px-7 py-3 font-semibold text-white transition hover:bg-emerald-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-300"
                         >
-                            Find a service
+                            Search
                         </button>
                     </form>
 
-                    <div className="mt-5 flex flex-wrap items-center gap-2 text-sm">
-                        <span className="text-emerald-200">Popular:</span>
-                        {QUICK_SERVICES.slice(0, 4).map((s) => (
-                            <Link
-                                key={s.label}
-                                href={`/services?search=${encodeURIComponent(s.label)}`}
-                                className="rounded-full border border-emerald-600 px-3 py-1 text-emerald-50 transition hover:bg-emerald-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-300"
-                            >
-                                {s.label}
-                            </Link>
+                    {/* Service chips */}
+                    <ul className="mt-6 flex max-w-2xl flex-wrap gap-2" aria-label="Popular services">
+                        {QUICK_SERVICES.map((s) => (
+                            <li key={s.label}>
+                                <Link
+                                    href={`/services?search=${encodeURIComponent(s.label)}`}
+                                    className="inline-flex items-center gap-2 rounded-full border border-stone-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:border-emerald-600 hover:text-emerald-800 focus:outline-none focus-visible:ring-4 focus-visible:ring-emerald-300"
+                                >
+                                    <span aria-hidden="true">{s.icon}</span>
+                                    {s.label}
+                                </Link>
+                            </li>
                         ))}
-                    </div>
+                    </ul>
 
-                    <dl className="mt-10 grid max-w-md grid-cols-3 gap-4 border-t border-emerald-700 pt-6">
-                        {TRUST.map((t) => (
-                            <div key={t.label}>
-                                <dt className="sr-only">{t.label}</dt>
-                                <dd className="text-2xl font-bold text-amber-300">{t.value}</dd>
-                                <p className="text-xs text-emerald-200">{t.label}</p>
+                    {/* Trust row */}
+                    <dl className="mt-10 flex max-w-lg divide-x divide-stone-300">
+                        {TRUST.map((t, i) => (
+                            <div key={t.label} className={i === 0 ? "pr-6" : "px-6"}>
+                                <dd className="text-xl font-bold text-emerald-900">{t.value}</dd>
+                                <dt className="text-xs text-slate-500">{t.label}</dt>
                             </div>
                         ))}
                     </dl>
                 </div>
 
-                {/* Right: service tiles */}
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-2">
-                    {QUICK_SERVICES.map((s) => (
-                        <Link
-                            key={s.label}
-                            href={`/services?search=${encodeURIComponent(s.label)}`}
-                            className="flex flex-col items-center gap-2 rounded-2xl bg-white p-5 text-center text-slate-900 transition hover:-translate-y-0.5 hover:shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-amber-300"
-                        >
-                            <span className="text-4xl" aria-hidden="true">{s.icon}</span>
-                            <span className="text-sm font-semibold">{s.label}</span>
-                        </Link>
-                    ))}
+                {/* Right: booking preview */}
+                <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+                    <div aria-hidden="true" className="absolute -right-3 -top-3 h-full w-full rotate-3 rounded-3xl bg-amber-200" />
+                    <div aria-hidden="true" className="absolute -left-3 top-3 h-full w-full -rotate-2 rounded-3xl bg-emerald-200" />
+
+                    <div className="relative rounded-3xl border border-stone-200 bg-white p-6 shadow-2xl shadow-emerald-900/10">
+                        <div className="flex items-center justify-between">
+                            <p className="font-semibold text-emerald-950">Your booking</p>
+                            <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-800">
+                                Provider confirmed
+                            </span>
+                        </div>
+
+                        <div className="mt-5 flex items-center gap-4 rounded-2xl bg-stone-50 p-4">
+                            <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-white text-3xl shadow-sm" aria-hidden="true">
+                                ❄️
+                            </span>
+                            <div className="min-w-0">
+                                <p className="font-semibold">AC Repair and Service</p>
+                                <p className="text-sm text-slate-500">Verified provider, rated 4.9</p>
+                            </div>
+                        </div>
+
+                        <ol className="mt-5 space-y-4">
+                            {BOOKING_STEPS.map((step) => (
+                                <li key={step.title} className="flex items-start gap-3">
+                                    <span
+                                        aria-hidden="true"
+                                        className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-emerald-700 text-xs text-white"
+                                    >
+                                        ✓
+                                    </span>
+                                    <div>
+                                        <p className="text-sm font-semibold">{step.title}</p>
+                                        <p className="text-sm text-slate-500">{step.note}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+
+                        <div className="mt-6 flex items-center justify-between border-t border-dashed border-stone-300 pt-5">
+                            <p className="text-sm text-slate-500">Total price</p>
+                            <p className="text-2xl font-extrabold text-emerald-950">৳ 800</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
