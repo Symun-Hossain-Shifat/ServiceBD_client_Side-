@@ -55,13 +55,13 @@ export default function AboutPage() {
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
                     <Link
-                        href="/services"
+                        href="/Services"
                         className="rounded-lg bg-[#0b6b4f] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#095840] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0b6b4f]"
                     >
                         Browse services
                     </Link>
                     <Link
-                        href="/contact"
+                        href="/Contact"
                         className="rounded-lg border border-[#16241f]/20 px-6 py-3 font-semibold transition-colors hover:bg-[#16241f]/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#0b6b4f]"
                     >
                         Contact us

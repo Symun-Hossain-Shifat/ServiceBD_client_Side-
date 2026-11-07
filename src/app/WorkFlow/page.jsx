@@ -93,7 +93,7 @@ export default function HowItWorksPage() {
                     </p>
                     <div className="mt-8 flex flex-wrap gap-4">
                         <Link
-                            href="/services"
+                            href="/Services"
                             className="rounded-lg bg-amber-400 px-6 py-3 font-semibold text-emerald-950 hover:bg-amber-300"
                         >
                             Browse services

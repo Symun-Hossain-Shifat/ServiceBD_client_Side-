@@ -5,11 +5,11 @@ const columns = [
     {
         title: "Services",
         links: [
-            { label: "Electrician", href: "/services/electrician" },
-            { label: "AC repair", href: "/services/ac-repair" },
-            { label: "Home cleaning", href: "/services/home-cleaning" },
-            { label: "Plumber", href: "/services/plumber" },
-            { label: "Painter", href: "/services/painter" },
+            { label: "Electrician", href: "/" },
+            { label: "AC repair", href: "/" },
+            { label: "Home cleaning", href: "/" },
+            { label: "Plumber", href: "/" },
+            { label: "Painter", href: "/" },
         ],
     },
     {
