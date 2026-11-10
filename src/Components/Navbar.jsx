@@ -18,7 +18,7 @@ export default function Navbar() {
     const toggleRef = useRef(null);
     const { data: session } = authClient.useSession()
     const user = session?.user;
-    console.log(user)
+
     const isActive = (href) => {
         const current = pathname.toLowerCase();
         const target = href.toLowerCase();

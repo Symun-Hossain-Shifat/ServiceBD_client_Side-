@@ -21,14 +21,14 @@ export const auth = betterAuth({
         additionalFields: {
             role: {
                 type: "string",
-                required: false,
-                defaultValue: "customer",
-                input: false,
+                defaultValue: 'customer',
+                input: true,
             },
 
             mobile: {
                 type: "string",
-                required: false,
+                defaultValue: '',
+                input: true,
             },
         },
     },

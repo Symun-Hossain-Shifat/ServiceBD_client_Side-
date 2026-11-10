@@ -14,34 +14,50 @@ const roleCard =
 
 export default function SignupPage() {
     const router = useRouter()
+
+
     const handleSignup = async (e) => {
-        e.preventDefault()
-        const formdata = e.target
-        const email = formdata.email.value
-        const password = formdata.password.value
-        const mobile = formdata.phone.value
-        const name = formdata.name.value
-        const role = formdata.role.value
-        console.log(email, password, name, role)
-        const { data, error } = await authClient.signUp.email({
-            name: name,
-            email: email,
-            role: role,
-            mobile: mobile,
-            password: password,
+        e.preventDefault();
 
-            callbackURL: "/",
-        });
-        if (data) {
-            alert('Signup Successfull')
-            router.push("/");
+        const formdata = e.target;
 
+        const name = formdata.name.value;
+        const email = formdata.email.value;
+        const password = formdata.password.value;
+        const confirmPassword = formdata.confirm.value;
+        const mobile = formdata.phone.value;
+        const role = formdata.role.value;
+
+        if (password !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
         }
-        if (error) {
-            alert(error.message)
+        console.log(mobile, role)
+        try {
+            const { data, error } = await authClient.signUp.email({
+                name,
+                email,
+                password,
+                mobile,
+                role,
+                callbackURL: "/",
+            });
+            if (error) {
+                console.error("Signup Error:", error);
+                alert(error.message);
+                return;
+            }
+
+            if (data) {
+                alert("Signup Successful");
+                router.push("/");
+            }
+        } catch (err) {
+            console.error("Unexpected Signup Error:", err);
+            alert("Something went wrong. Check terminal.");
         }
-        console.log(data, error)
-    }
+    };
+
     return (
         <main className="grid min-h-screen bg-stone-50 lg:grid-cols-[1fr_1.05fr]">
             {/* Brand panel */}
